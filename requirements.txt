@@ -1,29 +1,14 @@
-# Core scientific stack
-# Versions below are the ones the pipeline was actually run and verified with on
-# Python 3.14.4 / Windows 11. Lower bounds are given (rather than hard pins) so the
-# project also installs on Google Colab, which ships an older Python.
+# Runtime dependencies for the prototype API and the Vercel function.
+# Training-only extras (tqdm, matplotlib, seaborn, openpyxl) live in
+# requirements-research.txt so they stay out of the deployment bundle.
+fastapi>=0.115,<1.0
+pydantic>=2.6
 numpy>=2.4
 pandas>=2.2
 scipy>=1.13
 scikit-learn>=1.5
 joblib>=1.4
-tqdm>=4.66
-
-# Gradient boosting
 xgboost>=2.1
 lightgbm>=4.5
-
-# Explainability
 shap>=0.46
 lime>=0.2.0.1
-
-# Figures
-matplotlib>=3.9
-seaborn>=0.13
-
-# Only needed to read/write spreadsheets (results are plain CSV)
-openpyxl>=3.1
-
-# Prototype API (prototype/backend) and the Vercel function entrypoint
-fastapi>=0.115,<1.0
-pydantic>=2.6

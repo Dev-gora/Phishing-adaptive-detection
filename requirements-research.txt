@@ -1,0 +1,8 @@
+-r requirements.txt
+
+# Extras used by the training pipeline, the figure generation and the paper
+# build. Not imported by the API, so they are excluded from the deployment.
+tqdm>=4.66
+matplotlib>=3.9
+seaborn>=0.13
+openpyxl>=3.1

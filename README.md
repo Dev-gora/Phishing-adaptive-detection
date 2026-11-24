@@ -484,9 +484,12 @@ idea, cite Shafin (2025).
 ### Locally
 
 ```bash
-python -m pip install -r requirements.txt
+python -m pip install -r requirements-research.txt   # full research stack
 python prototype/backend/api.py        # http://127.0.0.1:8000
 ```
+
+`requirements.txt` is the runtime set used by the API and by the Vercel function;
+`requirements-research.txt` adds the training and figure-generation extras.
 
 The first start fits four models on the training split (~25 s) and caches them in
 `prototype/backend/.cache/`; later starts reuse that cache.

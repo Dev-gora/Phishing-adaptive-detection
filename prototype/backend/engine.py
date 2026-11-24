@@ -29,7 +29,8 @@ BACKEND_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = BACKEND_DIR.parents[1]
 SRC_DIR = PROJECT_ROOT / "src"
 CACHE_DIR = BACKEND_DIR / ".cache"
-BUNDLED_DIR = BACKEND_DIR / "artifacts"
+# Curated artefacts shipped with the deployment (project root, not next to the code).
+BUNDLED_DIR = PROJECT_ROOT / "artifacts"
 RESULTS_DIR = PROJECT_ROOT / "results" / "metrics"
 
 
@@ -115,24 +116,32 @@ DEFAULT_K = 12
 
 
 def _load_tuned_params() -> Dict[str, dict]:
-    path = RESULTS_DIR / "tuning.json"
-    if not path.exists():
-        return {}
-    try:
-        raw = json.loads(path.read_text(encoding="utf-8"))
-    except Exception:
-        return {}
-    params: Dict[str, dict] = {}
-    for model, payload in raw.items():
-        if not isinstance(payload, dict):
+    """Tuned hyper-parameters, preferring the copy shipped with the deployment.
+
+    ``results/`` is not part of the deployment bundle, so the artefacts directory
+    carries the same file; without it a refitted model would silently fall back
+    to the library defaults and no longer match the paper's configuration.
+    """
+    for path in (BUNDLED_DIR / "tuning.json", RESULTS_DIR / "tuning.json"):
+        if not path.exists():
             continue
-        best = payload.get("best_params", payload.get("params", payload))
-        if isinstance(best, dict):
-            clean = {}
-            for key, value in best.items():
-                clean[key.replace("knn__", "")] = value
-            params[model] = clean
-    return params
+        try:
+            raw = json.loads(path.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+        params: Dict[str, dict] = {}
+        for model, payload in raw.items():
+            if not isinstance(payload, dict):
+                continue
+            best = payload.get("best_params", payload.get("params", payload))
+            if isinstance(best, dict):
+                clean = {}
+                for key, value in best.items():
+                    clean[key.replace("knn__", "")] = value
+                params[model] = clean
+        if params:
+            return params
+    return {}
 
 
 class Engine:
@@ -188,7 +197,9 @@ class Engine:
         self.ready_s = round(time.perf_counter() - started, 2)
 
         self._load_cached_rankings()
-        threading.Thread(target=self._build_rankings, daemon=True).start()
+        if not self.rankings:
+            # Only pay for the selectors when no cached ranking could be read.
+            threading.Thread(target=self._build_rankings, daemon=True).start()
         threading.Thread(target=self._warm_models, daemon=True).start()
 
     def _warm_models(self) -> None:
