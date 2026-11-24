@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Local, regenerable caches. The deployment ships only artifacts/
+prototype/backend/.cache/
+prototype/frontend/node_modules/
+
+# Logs and local screenshots
+*.log
+screenshot-*.png
+.DS_Store

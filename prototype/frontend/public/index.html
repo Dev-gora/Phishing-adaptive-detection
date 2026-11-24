@@ -1,1032 +1,291 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Phishing Detection Prototype</title>
-  <script defer src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-  <script defer src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  <script defer src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #0a0a0f;
-      --bg-subtle: #12121a;
-      --fg: #f0f0f5;
-      --muted: #737383;
-      --accent: #00d4aa;
-      --accent-dim: #00d4aa33;
-      --card: #1a1a24;
-      --border: #2a2a3a;
-      --error: #ff4757;
-      --success: #00d4aa;
-      --warning: #f6ad55;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--bg);
-      color: var(--fg);
-      min-height: 100vh;
-      margin: 0;
-    }
-
-    .bg-pattern {
-      background-image: 
-        radial-gradient(circle at 20% 80%, var(--accent-dim) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, var(--accent-dim) 0%, transparent 50%);
-      opacity: 0.08;
-    }
-
-    .app-shell {
-      display: flex;
-      min-height: 100vh;
-    }
-
-    /* Sidebar Navigation */
-    .sidebar {
-      width: 260px;
-      flex-shrink: 0;
-      background: var(--bg-subtle);
-      border-right: 1px solid var(--border);
-      padding: 24px 16px;
-    }
-
-    .sidebar-header {
-      text-align: center;
-      margin-bottom: 32px;
-      padding-bottom: 24px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .sidebar-header h2 {
-      font-size: 1.25rem;
-      font-weight: 600;
-      color: var(--fg);
-      margin-bottom: 8px;
-    }
-
-    .sidebar-header p {
-      font-size: 0.875rem;
-      color: var(--muted);
-    }
-
-    .nav-link {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 10px 14px;
-      margin-bottom: 8px;
-      border-radius: 8px;
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 0.9375rem;
-      transition: all 0.2s ease;
-    }
-
-    .nav-link:hover {
-      color: var(--fg);
-      background: var(--accent-dim);
-    }
-
-    .nav-link.active {
-      color: var(--bg);
-      background: var(--accent);
-    }
-
-    .nav-link.active:hover {
-      background: var(--accent);
-    }
-
-    .nav-icon {
-      width: 20px;
-      height: 20px;
-    }
-
-    /* Main Content */
-    .main-content {
-      flex: 1;
-      padding: 32px;
-      overflow-y: auto;
-    }
-
-    .section {
-      margin-bottom: 40px;
-    }
-
-    .section-title {
-      font-size: 1.5rem;
-      font-weight: 600;
-      margin-bottom: 24px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    /* Cards */
-    .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 24px;
-      margin-bottom: 20px;
-    }
-
-    .card-header {
-      font-size: 0.875rem;
-      font-weight: 500;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 16px;
-    }
-
-    .metric-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-    }
-
-    .metric-label {
-      font-size: 0.875rem;
-      color: var(--muted);
-    }
-
-    .metric-value {
-      font-size: 2rem;
-      font-weight: 700;
-      background: linear-gradient(135deg, var(--accent), #00ffcc);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .status-badge {
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .status-good {
-      background: #00d4aa20;
-      color: #00d4aa;
-    }
-
-    .status-warning {
-      background: #f6ad5520;
-      color: #f6ad55;
-    }
-
-    .status-critical {
-      background: #ff475720;
-      color: #ff4757;
-    }
-
-    /* Forms */
-    .input-field {
-      width: 100%;
-      background: var(--bg-subtle);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 12px 16px;
-      color: var(--fg);
-      font-family: inherit;
-      font-size: 0.9375rem;
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
-
-    .input-field:focus {
-      outline: none;
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px var(--accent-dim);
-    }
-
-    .btn {
-      padding: 10px 20px;
-      border-radius: 8px;
-      font-weight: 500;
-      font-size: 0.9375rem;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      border: none;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, var(--accent), #00ffcc);
-      color: var(--bg);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px var(--accent-dim);
-    }
-
-    .btn-secondary {
-      background: var(--bg-subtle);
-      color: var(--fg);
-    }
-
-    .btn-secondary:hover {
-      background: var(--border);
-    }
-
-    .btn-danger {
-      background: var(--error);
-      color: white;
-    }
-
-    .btn-danger:hover {
-      opacity: 0.9;
-    }
-
-    /* Selector */
-    .selector-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 12px;
-      background: var(--bg-subtle);
-      border-radius: 6px;
-      margin-bottom: 4px;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    .selector-item:hover {
-      background: var(--accent-dim);
-    }
-
-    .selector-item.active {
-      background: var(--accent);
-      color: var(--bg);
-    }
-
-    .selector-color {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-
-    /* Tables */
-    .data-table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    .data-table th {
-      background: var(--bg-subtle);
-      color: var(--muted);
-      padding: 12px 8px;
-      text-align: left;
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .data-table td {
-      padding: 10px 8px;
-      border-bottom: 1px solid var(--border);
-      color: var(--fg);
-      font-size: 0.875rem;
-    }
-
-    .data-table tr:hover td {
-      background: var(--accent-dim);
-    }
-
-    /* Tabs */
-    .tabs {
-      display: flex;
-      margin-bottom: 16px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .tab {
-      padding: 8px 16px;
-      color: var(--muted);
-      text-decoration: none;
-      border-radius: 6px 6px 0 0;
-      font-size: 0.875rem;
-      font-weight: 500;
-      transition: color 0.2s;
-    }
-
-    .tab.active {
-      color: var(--fg);
-      background: var(--card);
-    }
-
-    .tab-panel {
-      display: none;
-    }
-
-    .tab-panel.active {
-      display: block;
-    }
-
-    /* Reduce motion */
-    @media (prefers-reduced-motion: reduce) {
-      * {
-        transition: none !important;
-        animation: none !important;
-      }
-    }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Phishing Detection — Explainable URL Analysis</title>
+<meta name="color-scheme" content="light only" />
+<link rel="stylesheet" href="/style.css" />
 </head>
 <body>
-  <div class="app-shell">
-    <!-- Sidebar -->
-    <aside class="sidebar">
-      <div class="sidebar-header">
-        <h2>Phishing Detection</h2>
-        <p>Adaptive Feature Selection Prototype</p>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">PD</div>
+      <div>
+        <div class="brand-title">Phishing Detection</div>
+        <div class="brand-sub">Lightweight &amp; explainable models</div>
+      </div>
+    </div>
+
+    <div class="nav-label">Workspace</div>
+    <nav id="nav">
+      <button class="nav-item active" data-page="dashboard"><span class="nav-index">1</span> Dashboard</button>
+      <button class="nav-item" data-page="analyze"><span class="nav-index">2</span> URL Detection</button>
+      <button class="nav-item" data-page="playground"><span class="nav-index">3</span> Model Playground</button>
+      <button class="nav-item" data-page="features"><span class="nav-index">4</span> Feature Analysis</button>
+      <button class="nav-item" data-page="explain"><span class="nav-index">5</span> Explainability</button>
+      <button class="nav-item" data-page="dataset"><span class="nav-index">6</span> Dataset Explorer</button>
+      <button class="nav-item" data-page="methodology"><span class="nav-index">7</span> Research Methodology</button>
+    </nav>
+
+    <div class="sidebar-foot" id="sidebar-status">Loading models…</div>
+  </aside>
+
+  <main class="main">
+
+    <!-- 1. DASHBOARD -->
+    <section class="page active" id="page-dashboard">
+      <div class="page-head">
+        <div>
+          <h1 class="page-title">Dashboard</h1>
+          <p class="page-sub">A working research prototype: four classifiers trained on the published phishing benchmark, evaluated on a held-out test split, with feature-selection and explanation tooling driven by the real pipeline.</p>
+        </div>
+        <span class="chip green" id="dash-health">checking…</span>
       </div>
 
-      <nav>
-        <a href="#" class="nav-link active" data-section="overview">
-          <svg class="nav-icon" viewBox="0 0 24 24">
-            <path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-          </svg>
-          Overview
-        </a>
+      <div class="grid cols-4" id="dash-kpis"></div>
 
-        <a href="#" class="nav-link" data-section="models">
-          <svg class="nav-icon" viewBox="0 0 24 24">
-            <path fill="currentColor" d="M17 2h2v2h-2zm0 12h2v6h-2zm-6-4v2h8v-2zm0-12v2h8v-2zm0 8h2v2h-2zm-6-4v2h2v-6h2V5h-2v6h2V9zm0 8h2v2h-2z"/>
-          </svg>
-          Models
-        </a>
-
-        <a href="#" class="nav-link" data-section="feature-selection">
-          <svg class="nav-icon" viewBox="0 0 24 24">
-            <path fill="currentColor" d="M3 3v18h18v-1H3zm3.5 7.5h5v2h-5zm3 3c0 1.4-1.1 2.5-2.5 2.5S6 15.9 6 14.5s1.1-2.5 2.5-2.5s2.5 1.1 2.5 2.5zm-9-5c-.8 0-1.5.7-1.5 1.5s.7 1.5 1.5 1.5s1.5-.7 1.5-1.5S11.3 4 10.5 4zm0 5c-.8 0-1.5.7-1.5 1.5s.7 1.5 1.5 1.5s1.5-.7 1.5-1.5S6.3 9 5.5 9zm7 2c0 .8-.7 1.5-1.5 1.5S9 15.3 9 14.5s.7-1.5 1.5-1.5s1.5.7 1.5 1.5zm0 4c0 .8-.7 1.5-1.5 1.5S9 17.3 9 16.5s.7-1.5 1.5-1.5s1.5.7 1.5 1.5zm0 4c0 .8-.7 1.5-1.5 1.5S9 20.3 9 19.5s.7-1.5 1.5-1.5S13.3 18 13 18z"/>
-          </svg>
-          Feature Selection
-        </a>
-
-        <a href="#" class="nav-link" data-section="adaptive">
-          <svg class="nav-icon" viewBox="0 0 24 24">
-            <path fill="currentColor" d="M8 16c0-.9-.7-1.6-1.5-1.2L6 14v2c0 .8.7 1.4 1.5 1.2t1.5-.4v-2c0-.7-.4-1.2-1.2-1.5zm-3 2c0 .9-.7 1.6-1.5 1.2L3 20v2C2 22 4.6 23.4 7.5 21.8l3-2.5c.6.2 1.2.3 1.8.3s1.2-.1 1.8-.3l3 2.5c2.9 1.6 5.5 2 8-2v-2c2.9-1.6 5.5-2 8-2s2.5-3.3 2.5-5.2v-2c0-1.9-1.5-3.2-3.5-3.5zm-7.5-4.5c0-.9-.7-1.6-1.5-1.2L5.5 14v2c0 .8.7 1.4 1.5 1.2t1.5-.4v-2c0-.7-.4-1.2-1.2-1.5zm7.5 4.5c0 .9-.7 1.6-1.5 1.2L18.5 18v2c0 .8.7 1.4 1.5 1.2t1.5-.4v-2c0-.7-.4-1.2-1.2-1.5zm-4.5-12c0-.9-.7-1.6-1.5-1.2L9 7v2c0 .8.7 1.4 1.5 1.2t1.5-.4v-2c0-.7-.4-1.2-1.2-1.5zm0 12c0 .9-.7 1.6-1.5 1.2L9 17v2c0 .8.7 1.4 1.5 1.2t1.5-.4v-2c0-.7-.4-1.2-1.2-1.5zm7.5-4.5c0 .9-.7 1.6-1.5 1.2L13 13v2c0 .8.7 1.4 1.5 1.2t1.5-.4v-2c0-.7-.4-1.2-1.2-1.5z"/>
-          </svg>
-          Adaptive Selection
-        </a>
-
-        <a href="#" class="nav-link" data-section="results">
-          <svg class="nav-icon" viewBox="0 0 24 24">
-            <path fill="currentColor" d="M19 13h-6v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8h-6l4-4h5v8h3v-6h2v6zm-1-10C7 4 2 7.2 2 12s5 8 5-4h-6v-2h6c0-2.7 2-5 5-5zm0 8c0-1.7-1.3-3-3-3s-3 1.3-3 3v2h2V8h6v2h2z"/>
-          </svg>
-          Results
-        </a>
-      </nav>
-    </aside>
-
-    <main class="main-content">
-      <!-- Overview Section -->
-      <section id="overview" class="section tab-panel active">
-        <h1 class="section-title">Phishing Detection Overview</h1>
-
+      <div class="grid cols-2">
         <div class="card">
-          <div class="metric-row">
-            <div>
-              <div class="metric-label">Training Samples</div>
-              <div id="train-samples" class="metric-value">Loading...</div>
+          <div class="card-head"><h2 class="card-title">Class distribution</h2></div>
+          <div class="card-note" style="margin:-6px 0 12px">Raw dataset, all 11,430 labelled URLs.</div>
+          <div id="dash-dist" class="chart-wrap"><div class="empty">Loading…</div></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h2 class="card-title">Quick URL check</h2></div>
+          <div class="card-note" style="margin:-6px 0 12px">Runs the four trained models on URL-derived features only.</div>
+          <div class="row">
+            <div class="grow">
+              <label class="field" for="dash-url">URL</label>
+              <input type="text" id="dash-url" placeholder="https://example.com/login" />
             </div>
-            <div>
-              <div class="metric-label">Test Samples</div>
-              <div id="test-samples" class="metric-value">Loading...</div>
+            <button class="btn" id="dash-go">Analyse</button>
+          </div>
+          <div id="dash-quick" style="margin-top:14px"></div>
+        </div>
+      </div>
+
+      <div class="grid cols-2">
+        <div class="card">
+          <div class="card-head"><h2 class="card-title">What this build actually does</h2></div>
+          <ul class="clean">
+            <li><strong>Real models, real data.</strong> Random Forest, XGBoost, KNN and LightGBM are fitted on the 11,430-row benchmark, split 60/20/20.</li>
+            <li><strong>Dataset metrics only on the held-out split.</strong> The test partition is never used for feature selection or tuning.</li>
+            <li><strong>Single-URL predictions are not accuracy.</strong> A URL receives a class and a probability; accuracy is only reported for a labelled evaluation set.</li>
+            <li><strong>No invented external data.</strong> Domain age, WHOIS, DNS, search index and page rank are not retrieved, so they are never shown.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-head"><h2 class="card-title">Available capability</h2></div>
+          <div id="dash-status"><div class="loading-box"><span class="spinner dark"></span> Reading model metadata…</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. URL DETECTION -->
+    <section class="page" id="page-analyze">
+      <div class="page-head">
+        <div>
+          <h1 class="page-title">URL Detection</h1>
+          <p class="page-sub">Analyse one URL with any combination of the trained models, and see why each model decided what it decided.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="row">
+          <div class="grow">
+            <label class="field" for="analyze-url">URL to analyse</label>
+            <input type="text" id="analyze-url" placeholder="http://secure-login-verify.example.tk/account/update" />
+            <div class="hint">Only URL-derived features are extracted. The page is not fetched.</div>
+          </div>
+          <button class="btn lg" id="analyze-go">Analyse URL</button>
+        </div>
+        <div class="section-sep"></div>
+        <label class="field">Models</label>
+        <div class="grid cols-4" id="analyze-models"></div>
+      </div>
+
+      <div id="analyze-result"></div>
+    </section>
+
+    <!-- 3. MODEL PLAYGROUND -->
+    <section class="page" id="page-playground">
+      <div class="page-head">
+        <div>
+          <h1 class="page-title">Model Playground</h1>
+          <p class="page-sub">Choose models and feature-selection methods, then evaluate every combination on the held-out test split. Results are computed live by the backend — nothing is simulated.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head"><h2 class="card-title">1 · Models</h2><span class="chip" id="pg-model-count">3 selected</span></div>
+        <div class="grid cols-4" id="pg-models"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-head"><h2 class="card-title">2 · Feature-selection methods</h2><span class="chip" id="pg-method-count">3 selected</span></div>
+        <div class="grid cols-3" id="pg-methods"></div>
+        <details class="tip">
+          <summary>Hover any method name for its definition</summary>
+          <p>SHAP, LIME, permutation, mutual information, RFE and Gini importance are the implementations from the research pipeline, run on the training split only. SLA-FS fuses the SHAP and LIME orderings by rank average. Adaptive selection evaluates a size grid on the validation split and keeps the smallest subset within epsilon of the full model.</p>
+        </details>
+      </div>
+
+      <div class="card">
+        <div class="card-head"><h2 class="card-title">3 · Configuration</h2></div>
+        <div class="grid cols-3">
+          <div>
+            <label class="field" for="pg-k">Features to retain (k)</label>
+            <div class="slider-row">
+              <input type="range" id="pg-k" min="3" max="32" step="1" value="12" />
+              <span class="slider-val" id="pg-k-out">12</span>
             </div>
+            <div class="hint">Applied to ranked methods. Full always uses all 32 URL features; Adaptive chooses k itself.</div>
           </div>
-          <div class="metric-row">
-            <div>
-              <div class="metric-label">Features</div>
-              <div id="n-features" class="metric-value">Loading...</div>
+          <div>
+            <label class="field" for="pg-eps">Performance-loss tolerance (ε)</label>
+            <div class="slider-row">
+              <input type="range" id="pg-eps" min="0" max="0.10" step="0.005" value="0.02" />
+              <span class="slider-val" id="pg-eps-out">0.020</span>
             </div>
-            <div>
-              <div class="metric-label">Balanced</div>
-              <div id="is-balanced" class="metric-value">Loading...</div>
-            </div>
+            <div class="hint">Used by Adaptive: the smallest subset whose validation F1 stays within ε of the full model.</div>
+          </div>
+          <div>
+            <label class="field" for="pg-cv">Cross-validation folds</label>
+            <input type="number" id="pg-cv" value="3" disabled />
+            <div class="hint">Not adjustable: the comparison uses the fixed held-out split, and 3-fold CV was used only for the saved hyper-parameter tuning.</div>
           </div>
         </div>
+        <div class="section-sep"></div>
+        <div class="row" style="align-items:center">
+          <button class="btn lg" id="pg-run">Run Comparative Analysis</button>
+          <span class="small muted" id="pg-seed">Random seed fixed at 42 (the seed the saved models were trained with)</span>
+          <span id="pg-status" style="margin-left:auto"></span>
+        </div>
+      </div>
 
+      <div id="pg-results"></div>
+    </section>
+
+    <!-- 4. FEATURE ANALYSIS -->
+    <section class="page" id="page-features">
+      <div class="page-head">
+        <div>
+          <h1 class="page-title">Feature Analysis</h1>
+          <p class="page-sub">Every extracted value for one URL, with model importance and a plain-language reading. Only features this application can genuinely compute are listed.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="row">
+          <div class="grow">
+            <label class="field" for="fa-url">URL</label>
+            <input type="text" id="fa-url" placeholder="https://paypal.com.account-verify.tk/signin" />
+          </div>
+          <div style="min-width:220px">
+            <label class="field" for="fa-model">Importance from</label>
+            <select id="fa-model"></select>
+          </div>
+          <button class="btn lg" id="fa-go">Extract features</button>
+        </div>
+        <div class="hint">Tree models use exact SHAP values; KNN uses LIME weights, because tree SHAP needs a tree ensemble.</div>
+      </div>
+
+      <div id="fa-result"></div>
+    </section>
+
+    <!-- 5. EXPLAINABILITY -->
+    <section class="page" id="page-explain">
+      <div class="page-head">
+        <div>
+          <h1 class="page-title">Explainability</h1>
+          <p class="page-sub">Global model behaviour and individual predictions are different things and are kept apart here.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="row">
+          <div style="min-width:240px">
+            <label class="field" for="ex-model">Model</label>
+            <select id="ex-model"></select>
+          </div>
+          <div class="grow">
+            <label class="field" for="ex-url">Optional: explain one URL with this model</label>
+            <input type="text" id="ex-url" placeholder="http://login-verify.example.tk/secure" />
+          </div>
+          <button class="btn" id="ex-run">Explain</button>
+        </div>
+      </div>
+
+      <div id="ex-global"></div>
+      <div id="ex-instance"></div>
+    </section>
+
+    <!-- 6. DATASET EXPLORER -->
+    <section class="page" id="page-dataset">
+      <div class="page-head">
+        <div>
+          <h1 class="page-title">Dataset Explorer</h1>
+          <p class="page-sub">What the implementation actually loads, how it differs from the numbers quoted in the reference paper, and what every column means.</p>
+        </div>
+      </div>
+      <div id="ds-body"><div class="loading-box"><span class="spinner dark"></span> Reading dataset…</div></div>
+    </section>
+
+    <!-- 7. RESEARCH METHODOLOGY -->
+    <section class="page" id="page-methodology">
+      <div class="page-head">
+        <div>
+          <h1 class="page-title">Research Methodology</h1>
+          <p class="page-sub">How the models behind this interface were produced, and the limits that follow from those choices.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head"><h2 class="card-title">Pipeline</h2></div>
+        <ol class="clean" style="padding-left:20px">
+          <li><strong>Load.</strong> The published benchmark is read unchanged from <span class="mono">data/dataset_phishing_raw.csv</span> (11,430 rows, URL + 87 features + label).</li>
+          <li><strong>Clean.</strong> Ambiguous duplicate URLs are dropped, exact duplicate feature rows are removed, six zero-variance columns are dropped, and the label is encoded (phishing = 1).</li>
+          <li><strong>Split.</strong> Stratified 60 / 20 / 20 into train, validation and test. The test split is touched only for the numbers shown in Model Playground.</li>
+          <li><strong>Select.</strong> Each method ranks features using the training split only. SHAP and LIME use a shared Random Forest surrogate; permutation and RFE are out-of-sample aware.</li>
+          <li><strong>Fit &amp; evaluate.</strong> The chosen subset is used to fit each model; accuracy, precision, recall, F1 and ROC-AUC are computed on the 2,252 test rows.</li>
+          <li><strong>Explain.</strong> Tree SHAP for tree ensembles, LIME for any model, both on the same extracted feature vector the prediction used.</li>
+        </ol>
+      </div>
+
+      <div class="grid cols-2">
         <div class="card">
-          <div class="section-title" style="margin-top: 0;">Model Performance (Validation)</div>
-          <div id="model-performance" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px;">
-            <!-- Dynamically loaded -->
-          </div>
+          <div class="card-head"><h2 class="card-title">Metric definitions</h2></div>
+          <dl class="kv">
+            <dt>Accuracy</dt><dd>Correct predictions / all predictions. Misleading under class imbalance, so it is never the sole ranking criterion.</dd>
+            <dt>Precision</dt><dd>Of URLs flagged suspicious, the share that really are phishing.</dd>
+            <dt>Recall</dt><dd>Of the phishing URLs, the share that were caught.</dd>
+            <dt>F1</dt><dd>Harmonic mean of precision and recall; the primary comparison metric here.</dd>
+            <dt>ROC-AUC</dt><dd>Ranking quality of the predicted probability, threshold-independent.</dd>
+            <dt>Prediction time</dt><dd>Mean milliseconds per sample to score the test split, excluding training.</dd>
+          </dl>
         </div>
-      </section>
-
-      <!-- Models Section -->
-      <section id="models" class="section tab-panel">
-        <h1 class="section-title">Model Architectures</h1>
-
         <div class="card">
-          <p class="card-header">Random Forest</p>
-          <div class="metric-row">
-            <span class="metric-label">Type</span>
-            <span>Bagged decision trees</span>
-          </div>
-          <div class="metric-row">
-            <span class="metric-label">Splitting</span>
-            <span>Best feature split (Gini impurity)</span>
-          </div>
-          <div class="metric-row">
-            <span class="metric-label">Max Features</span>
-            <span>sqrt(auto-selected)</span>
-          </div>
-          <div class="metric-row">
-            <span class="metric-label">Ensemble Size</span>
-            <span>300 trees (configurable)</span>
-          </div>
-          <p class="text-muted small" style="margin-top: 12px;">
-            Random Forest averages multiple decision trees trained on random subsets of
-            data and features. Reduces overfitting compared to single trees and provides
-            built-in feature importance via mean decrease in Gini.
-          </p>
+          <div class="card-head"><h2 class="card-title">Limitations</h2></div>
+          <ul class="clean">
+            <li>The live analyser can only compute URL-derived features. Page-content and third-party features are excluded rather than guessed, which is why live models use 32 of the 81 modelled columns.</li>
+            <li>Dataset metrics are therefore not directly comparable with the full-feature results in the paper.</li>
+            <li>A single-URL prediction has no ground truth, so no accuracy is reported for it.</li>
+            <li>SHAP values explain the model, not the website.</li>
+          </ul>
         </div>
+      </div>
 
-        <div class="card">
-          <p class="card-header">XGBoost</p>
-          <div class="metric-row">
-            <span class="metric-label">Type</span>
-            <span>Gradient-boosted trees</span>
-          </div>
-          <div class="metric-row">
-            <span class="metric-label">Learning Strategy</span>
-            <span>Gradient boosting with histogram approximation</span>
-          </div>
-          <div class="metric-row">
-            <span class="metric-label">Regularization</span>
-            <subsampling + column subsampling</subsampling>
-          </div>
-          <div class="metric-row">
-            <span class="metric-label">Objective</span>
-            <span>Binary logistic loss (logloss)</span>
-          </div>
-          <p class="text-muted small" style="margin-top: 12px;">
-            XGBoost builds trees sequentially, each new tree correcting residuals of
-            previous ones. Handles missing values natively and provides L1/L2 regularization
-            to prevent overfitting. Fast histogram-based approximation for training.
-          </p>
-        </div>
+      <div class="card">
+        <div class="card-head"><h2 class="card-title">Feature-selection cost in this build</h2></div>
+        <div class="card-note" style="margin:-6px 0 10px">Measured once on the 32-feature URL space and cached; the rankings are reused by every playground run.</div>
+        <div id="ms-ranks"></div>
+      </div>
+    </section>
 
-        <div class="card">
-          <p class="card-header">LightGBM</p>
-          <div class="metric-row">
-            <span class="metric-label">Type</span>
-            <span>Leaf-wise gradient boosting</span>
-          </div>
-          <div class="metric-row">
-            <span class="metric-label">Efficiency</span>
-            <subsampling + faster than XGBoost</subsampling>
-          </div>
-          <div class="metric-row">
-            <span class="metric-label">Max Leaves</span>
-            <span>31 leaves per tree (configurable)</span>
-          </div>
-          <div class="metric-row">
-            <span class="metric-label">Objective</span>
-            <span>Binary logistic loss (logloss)</span>
-          </div>
-          <p class="text-muted small" style="margin-top: 12px;">
-            LightGBM grows trees leaf-wise instead of level-wise, making it significantly
-            faster and more accurate than level-wise growers like XGBoost. Uses Gradient-based
-            One-Side Sampling (GOSS) and Exclusive Feature Bundling (EFB) for efficiency.
-          </p>
-        </div>
-
-        <div class="card">
-          <p class="card-header">k-Nearest Neighbors (KNN)</p>
-          <div class="metric-row">
-            <span class="metric-label">Type</span>
-            <span>Instance-based learning</span>
-          </div>
-          <div class="metric-row">
-            <span class="metric-label">Distance</span>
-            <span>Minkowski with p=2 (Euclidean)</span>
-          </div>
-          <div class="metric-row">
-            <span class="metric-label">Preprocessing</span>
-            <span>StandardScaler (mandatory)</span>
-          </div>
-          <div class="metric-row">
-            <span class="metric-label">k-value</span>
-            <span>5 neighbors (tunable)</span>
-          </div>
-          <p class="text-muted small" style="margin-top: 12px;">
-            KNN classifies based on majority vote of nearest training instances. Requires
-            feature scaling since it's distance-based. Lazy learner - no training phase,
-            all computation happens at prediction time. Sensitive to curse of dimensionality
-            with many features.
-          </p>
-        </div>
-      </section>
-
-      <!-- Feature Selection Section -->
-      <section id="feature-selection" class="section tab-panel">
-        <h1 class="section-title">Feature Selection Methods</h1>
-
-        <div class="card">
-          <p class="card-header">Comparative Ranking Results</p>
-          <div id="feature-ranking-table" style="overflow-x: auto;">
-            <table class="data-table">
-              <thead>
-                <tr>
-                  <th>Method</th>
-                  <th>Top 5 Features</th>
-                  <th>Count</th>
-                </tr>
-              </thead>
-              <tbody>
-                <!-- Dynamically loaded -->
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <div class="card">
-          <p class="card-header">SLA-FS Variants</p>
-          <div id="slafs-variants" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px;">
-            <!-- Dynamically loaded -->
-          </div>
-        </div>
-      </section>
-
-      <!-- Adaptive Selection Section -->
-      <section id="adaptive" class="section tab-panel">
-        <h1 class="section-title">Adaptive Feature Selection</h1>
-
-        <div class="card">
-          <p class="card-header">Adaptive Rule</p>
-          <p class="text-muted small">
-            The adaptive selection rule finds the smallest feature subset k such that:
-            <br/>
-            <strong>F1(k) ≥ F1(full) - ε</strong>
-            <br/>
-            where ε ∈ {0.01, 0.02, 0.05} and patience=3 (3 consecutive sizes must satisfy)
-          </p>
-        </div>
-
-        <div class="card">
-          <p class="card-header">Test Results by Epsilon</p>
-          <div id="adaptive-results" style="overflow-x: auto;">
-            <table class="data-table">
-              <thead>
-                <tr>
-                  <th>Model</th>
-                  <th>Method</th>
-                  <th>ε</th>
-                  <th>k Features</th>
-                  <th>Reduction</th>
-                  <th>Test F1</th>
-                  <th>Test AUC</th>
-                </tr>
-              </thead>
-              <tbody>
-                <!-- Dynamically loaded -->
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <div class="card">
-          <p class="card-header">Feature Reduction Summary</p>
-          <div id="reduction-summary" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px;">
-            <!-- Dynamically loaded -->
-          </div>
-        </div>
-      </section>
-
-      <!-- Results Section -->
-      <section id="results" class="section tab-panel">
-        <h1 class="section-title">Evaluation Results</h1>
-
-        <div class="card">
-          <p class="card-header">Full Feature Baseline</p>
-          <div id="baseline-results" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px;">
-            <!-- Dynamically loaded -->
-          </div>
-        </div>
-
-        <div class="card">
-          <p class="card-header">Adaptive Selection Performance</p>
-          <div id="adaptive-performance" style="overflow-x: auto;">
-            <table class="data-table">
-              <thead>
-                <tr>
-                  <th>Model</th>
-                  <th>Method</th>
-                  <th>ε</th>
-                  <th>Test F1</th>
-                  <th>Test AUC</th>
-                </tr>
-              </thead>
-              <tbody>
-                <!-- Dynamically loaded -->
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <div class="card">
-          <p class="card-header">Feature Importance Comparison</p>
-          <div id="importance-comparison" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px;">
-            <!-- Dynamically loaded -->
-          </div>
-        </div>
-      </section>
-    </main>
-  </div>
-
-  <script type="babel">
-    // Initialize React app
-    document.addEventListener('DOMContentLoaded', () => {
-      // State
-      const API_BASE = 'http://127.0.0.1:8000';
-      let currentSection = 'overview';
-      let modelsData = {};
-      let fsData = {};
-      let adaptiveData = {};
-      let baselineData = {};
-
-      // Navigation
-      const navLinks = document.querySelectorAll('.nav-link');
-      const tabPanels = document.querySelectorAll('.tab-panel');
-
-      function setSection(sectionId) {
-        // Update navigation
-        navLinks.forEach(link => {
-          link.classList.toggle('active', link.dataset.section === sectionId);
-        });
-
-        // Update panels
-        tabPanels.forEach(panel => {
-          panel.classList.toggle('active', panel.id === `${sectionId}-panel`);
-        });
-
-        currentSection = sectionId;
-        loadSectionData(sectionId);
-      }
-
-      navLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-          e.preventDefault();
-          setSection(link.dataset.section);
-        });
-      });
-
-      // API fetch helper
-      async function fetchAPI(endpoint, options = {}) {
-        const url = new URL(`${API_BASE}${endpoint}`);
-        const body = options.body ? JSON.stringify(options.body) : null;
-        
-        const init = {
-          method: body ? 'POST' : 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            ...options.headers,
-          },
-          ...(body && { body }),
-          ...options,
-        };
-
-        const response = await fetch(url, init);
-        if (!response.ok) {
-          const errText = await response.text();
-          throw new Error(`API error: ${response.status} - ${errText}`);
-        }
-        return response.json();
-      }
-
-      // Load data based on section
-      async function loadSectionData(section) {
-        try {
-          switch (section) {
-            case 'overview':
-              await loadOverview();
-              break;
-            case 'models':
-              await loadModels();
-              break;
-            case 'feature-selection':
-              await loadFeatureSelection();
-              break;
-            case 'adaptive':
-              await loadAdaptive();
-              break;
-            case 'results':
-              await loadResults();
-              break;
-          }
-        } catch (err) {
-          console.error(`Error loading ${section}:`, err);
-          showError(section, err.message);
-        }
-      }
-
-      // Load overview data
-      async function loadOverview() {
-        try {
-          const config = await fetchAPI('/config');
-          const env = await fetchAPI('/environment');
-          
-          // Update metrics
-          document.getElementById('train-samples').textContent = String(config.data?.get?.('test_size') !== undefined ? 'N/A' : '—');
-          document.getElementById('test-samples').textContent = '—';
-          document.getElementById('n-features').textContent = config.data?.n_features_raw !== undefined 
-            ? String(config.data.n_features_raw) 
-            : '—';
-          document.getElementById('is-balanced').textContent = config.data?.is_balanced !== undefined 
-            ? config.data.is_balanced ? 'Yes' : 'No' 
-            : '—';
-          
-          // Populate model performance placeholders
-          const perfDiv = document.getElementById('model-performance');
-          perfDiv.innerHTML = '';
-          
-          // Show basic config info
-          console.log('Config loaded:', config);
-        } catch (err) {
-          console.error('Error loading overview:', err);
-        }
-      }
-
-      // Load models data
-      async function loadModels() {
-        try {
-          const modelData = await fetchAPI('/train-models');
-          modelsData = modelData.data;
-          
-          const perfDiv = document.getElementById('model-performance');
-          perfDiv.innerHTML = '';
-          
-          if (!modelsData.tuned_models) {
-            perfDiv.innerHTML = '<p class="text-muted">No models trained yet. Use the API to train models.</p>';
-            return;
-          }
-          
-          // Create model cards
-          const models = Object.keys(modelsData.tuned_models);
-          const descriptions = modelsData.model_descriptions || {};
-          
-          models.forEach(modelName => {
-            const info = modelsData.tuned_models[modelName];
-            const desc = descriptions[modelName] || {};
-            
-            const card = document.createElement('div');
-            card.className = 'card';
-            card.innerHTML = `
-              <div>
-                <div class="metric-row">
-                  <span class="metric-label">Model</span>
-                  <span>${modelName}</span>
-                </div>
-                <div class="metric-row">
-                  <span class="metric-label">CV F1</span>
-                  <span>${info.cv_f1.toFixed(4)}</span>
-                </div>
-                <div class="metric-row">
-                  <span class="metric-label">Params</span>
-                  <span>${JSON.stringify(info.params).slice(0, 80)}${JSON.stringify(info.params).length > 80 ? '...' : ''}</span>
-                </div>
-              </div>
-            `;
-            perfDiv.appendChild(card);
-          });
-        } catch (err) {
-          console.error('Error loading models:', err);
-        }
-      }
-
-      // Load feature selection data
-      async function loadFeatureSelection() {
-        try {
-          const fsResult = await fetchAPI('/feature-selection');
-          fsData = fsResult.data;
-          
-          // Update ranking table
-          const tbody = document.querySelector('#feature-ranking-table tbody');
-          tbody.innerHTML = '';
-          
-          if (!fsData.rankings) {
-            tbody.innerHTML = '<tr><td class="text-muted" colspan="3">No rankings available</td></tr>';
-            return;
-          }
-          
-          const methods = Object.keys(fsData.rankings);
-          methods.forEach(method => {
-            const ranking = fsData.rankings[method];
-            const row = document.createElement('tr');
-            const top5 = ranking.top_k_5 ? ranking.top_k_5.slice(0, 5).join(', ') : 'N/A';
-            
-            row.innerHTML = `
-              <td>${method}</td>
-              <td title="${top5}">${top5}</td>
-              <td>${ranking.n_features}</td>
-            `;
-            tbody.appendChild(row);
-          });
-          
-          // Update SLA-FS variants
-          const variantsDiv = document.getElementById('slafs-variants');
-          variantsDiv.innerHTML = '';
-          
-          if (fsData.sla_variants) {
-            Object.keys(fsData.sla_variants).forEach(variantName => {
-              const variant = fsData.sla_variants[variantName];
-              const card = document.createElement('div');
-              card.className = 'card';
-              card.innerHTML = `
-                <div>
-                  <span class="metric-label">Variant</span>
-                  <span>${variantName}</span>
-                </div>
-                <div>
-                  <span class="metric-label">Top Features</span>
-                  <span>${variant.top_k_5 ? variant.top_k_5.slice(0, 3).join(', ') : 'N/A'}</span>
-                </div>
-              </div>
-            `;
-            variantsDiv.appendChild(card);
-          });
-        } catch (err) {
-          console.error('Error loading feature selection:', err);
-        }
-      }
-
-      // Load adaptive selection data
-      async function loadAdaptive() {
-        try {
-          const adjResult = await fetchAPI('/adaptive-selection');
-          adaptiveData = adjResult.data;
-          
-          // Update adaptive results table
-          const tbody = document.querySelector('#adaptive-results tbody');
-          tbody.innerHTML = '';
-          
-          if (!adaptiveData.decisions || adaptiveData.decisions.length === 0) {
-            tbody.innerHTML = '<tr><td class="text-muted" colspan="7">No adaptive selections yet</td></tr>';
-            return;
-          }
-          
-          adaptiveData.decisions.forEach(dec => {
-            const reductionPct = dec.reduction_pct || 0;
-            const row = document.createElement('tr');
-            
-            row.innerHTML = `
-              <td>${dec.model}</td>
-              <td>${dec.method}</td>
-              <td>${dec.epsilon}</td>
-              <td>${dec.selected_k || 'Full'}</td>
-              <td>${reductionPct}%</td>
-              <td>${dec.f1?.toFixed(4) || '—'}</td>
-              <td>${dec.auc?.toFixed(4) || '—'}</td>
-            `;
-            tbody.appendChild(row);
-          });
-          
-          // Update reduction summary
-          const summaryDiv = document.getElementById('reduction-summary');
-          summaryDiv.innerHTML = '';
-          
-          if (adaptiveData.decisions) {
-            // Group by model and method
-            const reductions = {};
-            adaptiveData.decisions.forEach(dec => {
-              const key = `${dec.model}-${dec.method}`;
-              if (!reductions[key]) {
-                reductions[key] = { reductions: [], models: dec.model, method: dec.method };
-              }
-              reductions[key].reductions.push(dec.reduction_pct || 0);
-            });
-            
-            Object.values(reductions).forEach(group => {
-              const avgReduction = group.reductions.reduce((a, b) => a + b, 0) / group.reductions.length;
-              const card = document.createElement('div');
-              card.className = 'card';
-              card.innerHTML = `
-                <div>
-                  <span class="metric-label">Model</span>
-                  <span>${group.models}</span>
-                </div>
-                <div>
-                  <span class="metric-label">Avg Reduction</span>
-                  <span>${avgReduction.toFixed(1)}%</span>
-                </div>
-                <div>
-                  <span class="metric-label">Individual Reductions</span>
-                  <span>${group.reductions.map(r => r.toFixed(1) + '%').join(', ')}</span>
-                </div>
-              `;
-              summaryDiv.appendChild(card);
-            });
-          }
-        } catch (err) {
-          console.error('Error loading adaptive selection:', err);
-        }
-      }
-
-      // Load results data
-      async function loadResults() {
-        try {
-          const baseResult = await fetchAPI('/final-evaluation');
-          baselineData = baseResult.data;
-          
-          // Update baseline results
-          const perfDiv = document.getElementById('baseline-results');
-          perfDiv.innerHTML = '';
-          
-          if (!baselineData.full_baselines) {
-            perfDiv.innerHTML = '<p class="text-muted">No baseline results available</p>';
-            return;
-          }
-          
-          const models = Object.keys(baselineData.full_baselines);
-          models.forEach(modelName => {
-            const result = baselineData.full_baselines[modelName];
-            
-            const card = document.createElement('div');
-            card.className = 'card';
-            card.innerHTML = `
-              <div>
-                <div class="metric-row">
-                  <span class="metric-label">Model</span>
-                  <span>${modelName}</span>
-                </div>
-                <div class="metric-row">
-                  <span class="metric-label">Test F1</span>
-                  <span>${result.f1.toFixed(4)}</span>
-                </div>
-                <div class="metric-row">
-                  <span class="metric-label">Test AUC</span>
-                  <span>${result.roc_auc.toFixed(4)}</span>
-                </div>
-                <div class="metric-row">
-                  <span class="metric-label">Precision</span>
-                  <span>${result.precision.toFixed(4)}</span>
-                </div>
-                <div class="metric-row">
-                  <span class="metric-label">Recall</span>
-                  <span>${result.recall.toFixed(4)}</span>
-                </div>
-              </div>
-            `;
-            perfDiv.appendChild(card);
-          });
-          
-          // Update adaptive performance table
-          const tbody = document.querySelector('#adaptive-performance tbody');
-          tbody.innerHTML = '';
-          
-          if (adaptiveData.decisions) {
-            adaptiveData.decisions.forEach(dec => {
-              const row = document.createElement('tr');
-              row.innerHTML = `
-                <td>${dec.model}</td>
-                <td>${dec.method}</td>
-                <td>${dec.epsilon}</td>
-                <td>${dec.f1?.toFixed(4) || '—'}</td>
-                <td>${dec.auc?.toFixed(4) || '—'}</td>
-              `;
-              tbody.appendChild(row);
-            });
-          }
-        } catch (err) {
-          console.error('Error loading results:', err);
-        }
-      }
-
-      // Show error state
-      function showError(section, message) {
-        const panels = {
-          overview: 'Loading error',
-          models: 'Error loading models',
-          feature-selection: 'Error loading feature selection',
-          adaptive: 'Error loading adaptive selection',
-          results: 'Error loading results'
-        };
-        
-        const perfDiv = document.getElementById('model-performance');
-        perfDiv.innerHTML = `<p class="text-red-400">Error: ${message}</p>`;
-      }
-
-      // Initialize
-      // Set initial section from URL hash or default to overview
-      const urlSection = new URLSearchParams(window.location.search).get('section');
-      const initialSection = urlSection && ['overview', 'models', 'feature-selection', 'adaptive', 'results'].includes(urlSection) 
-        ? urlSection : 'overview';
-      setSection(initialSection);
-    });
-  </script>
+  </main>
+</div>
+<script src="/app.js"></script>
 </body>
 </html>

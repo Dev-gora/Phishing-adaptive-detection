@@ -1,0 +1,9 @@
+# Local caches and training output are never part of a deployment.
+prototype/backend/.cache/
+results/
+data/sample_url_analysis.csv
+**/__pycache__/
+**/*.pyc
+.venv/
+*.log
+screenshot-*.png

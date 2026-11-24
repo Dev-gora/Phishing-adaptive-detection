@@ -1,0 +1,10 @@
+{
+  "RandomForest": {
+    "params": {},
+    "cv_f1": NaN
+  },
+  "KNN": {
+    "params": {},
+    "cv_f1": NaN
+  }
+}

@@ -17,7 +17,7 @@ from fastapi.responses import JSONResponse
 
 # Project source - add to path
 import sys
-sys.path.insert(0, str(Path(__file__).parent.parent.parent / "phishing-detection" / "src"))
+sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
 
 from config import ExperimentConfig, set_global_seed, describe_environment
 from preprocessing import load_raw_dataset, run_preprocessing_pipeline, validate_dataset

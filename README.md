@@ -476,3 +476,48 @@ headline accuracy.
 
 If you use the dataset, cite Hannousse & Yahiouche (2021); if you use the SLA-FS
 idea, cite Shafin (2025).
+
+---
+
+## 15. Running and deploying the interactive prototype
+
+### Locally
+
+```bash
+python -m pip install -r requirements.txt
+python prototype/backend/api.py        # http://127.0.0.1:8000
+```
+
+The first start fits four models on the training split (~25 s) and caches them in
+`prototype/backend/.cache/`; later starts reuse that cache.
+
+### Vercel
+
+1. Import this repository at <https://vercel.com/new>.
+2. Set **Root Directory** to the repository root, framework preset **Other**.
+3. No build command and no output directory are needed.
+4. Deploy.
+
+`vercel.json` routes every request to one Python function (`api/index.py`) which
+serves both the JSON API and the static UI. `includeFiles` bundles the dataset,
+`src/`, the front-end and `artifacts/`.
+
+* `artifacts/` holds the four pre-trained full-feature models and the cached
+  feature rankings, so URL analysis is fast on a cold start. Playground
+  comparisons that were not pre-computed are fitted on demand and written to the
+  only writable path, `/tmp`.
+* The Python bundle is roughly 350 MB uncompressed; Vercel's Python limit is
+  500 MB. If dependency resolution pushes past that, remove `xgboost`/`lightgbm`
+  from `requirements.txt` — the engine detects the missing packages and hides
+  those models rather than failing.
+* Model pickles were written by the locally installed scikit-learn. If the
+  platform resolves a different version, loading fails safe and the model is
+  refitted on first use.
+
+`vercel-deploy/` is an earlier Node-based deployment attempt and is not used by
+the current application.
+
+### Paper artefacts
+
+The compiled report, reference list and figure gallery are in `docs/paper/` and
+`docs/figures/`.

@@ -30,7 +30,7 @@ import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-from .config import ExperimentConfig, METRICS_DIR, RAW_DATASET
+from config import ExperimentConfig, METRICS_DIR, RAW_DATASET
 
 LABEL_COLUMN = "status"
 ID_COLUMN = "url"

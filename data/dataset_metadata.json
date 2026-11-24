@@ -1,0 +1,13 @@
+{
+  "dataset": "Web page phishing detection",
+  "authors": "Hannousse, A. & Yahiouche, S. (2021)",
+  "repository": "Mendeley Data",
+  "doi": "10.17632/c2gw7fy2j4.3",
+  "version": 3,
+  "api_url": "https://data.mendeley.com/public-api/datasets/c2gw7fy2j4/files?folder_id=root&version=3",
+  "expected_sha256": "21093e2902e5441c86a6daf95e86e7c332046e477fdf109a579d7bd81e586d6c",
+  "bytes": 3661166,
+  "sha256": "21093e2902e5441c86a6daf95e86e7c332046e477fdf109a579d7bd81e586d6c",
+  "sha256_matches": true,
+  "downloaded": false
+}

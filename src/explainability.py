@@ -36,7 +36,7 @@ from typing import Dict, List, Sequence, Tuple
 import numpy as np
 import pandas as pd
 
-from .config import ExperimentConfig
+from config import ExperimentConfig
 from .evaluation import Timer, jaccard
 from .feature_selection import (
     POSITIVE_CLASS,

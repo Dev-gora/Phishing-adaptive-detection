@@ -39,8 +39,8 @@ from sklearn.feature_selection import RFE, mutual_info_classif
 from sklearn.inspection import permutation_importance
 from sklearn.model_selection import StratifiedKFold
 
-from .config import ExperimentConfig, set_global_seed
-from .evaluation import Timer, jaccard, stability_metrics
+from config import ExperimentConfig, set_global_seed
+from evaluation import Timer, jaccard, stability_metrics
 
 try:  # LIME is optional at runtime but required by the study
     import lime  # noqa: F401

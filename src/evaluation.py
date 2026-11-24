@@ -28,7 +28,7 @@ from sklearn.metrics import (
     roc_curve,
 )
 
-from .models import positive_class_proba
+from models import positive_class_proba
 
 
 # --------------------------------------------------------------------------------------

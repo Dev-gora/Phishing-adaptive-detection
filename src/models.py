@@ -28,7 +28,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 
-from .config import ExperimentConfig, set_global_seed
+from config import ExperimentConfig, set_global_seed
 
 # --------------------------------------------------------------------------------------
 # Availability flags
