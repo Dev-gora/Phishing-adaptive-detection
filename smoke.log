@@ -1,0 +1,624 @@
+==============================================================================
+                       STAGE 6  Comparative experiments                       
+==============================================================================
+
+[1/6] Preprocessing and splitting
+  train 6,753 | validation 2,251 | test 2,252
+  features used: 81
+
+[2/6] Hyper-parameter tuning (training split, CV) and baselines
+  RandomForest   best params={} cv_f1=nan
+  XGBoost        best params={} cv_f1=nan
+  KNN            best params={} cv_f1=nan
+  full-feature baseline (validation split)
+    RandomForest   F1=0.9564  AUC=0.9904  fit=2.3s
+    XGBoost        F1=0.9632  AUC=0.9925  fit=2.8s
+    KNN            F1=0.9330  AUC=0.9715  fit=0.1s
+
+[3/6] Feature selection (six methods + SLA-FS)
+  [1/6] SHAP ...    38.2s  (top3: google_index, page_rank, web_traffic)
+  [2/6] LIME ... C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+   10.4s  (top3: google_index, page_rank, nb_hyperlinks)
+  [3/6] Permutation ...    70.8s  (top3: google_index, page_rank, web_traffic)
+  [4/6] MutualInfo ...     6.3s  (top3: google_index, web_traffic, domain_age)
+  [5/6] RFE ... FAILED: IndexError: index 1 is out of bounds for axis 0 with size 1
+  [6/6] RFImportance ...     0.2s  (top3: google_index, page_rank, nb_hyperlinks)
+  surrogate fit time: 2.3s
+    SLA-FS_rankavg         |intersection/top-k| head: google_index, page_rank, nb_hyperlinks, nb_www
+    SLA-FS_scoreblend      |intersection/top-k| head: google_index, page_rank, nb_hyperlinks, nb_www
+    SLA-FS_intersection    |intersection/top-k| head: google_index, page_rank, web_traffic, nb_hyperlinks
+  rankings saved: 16 columns over 81 features
+
+[4/6] Feature-selection stability (Jaccard across repeats)
+  stability analysis
+  stability repeat 1/2 (n=5402)
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+    [warn] RFE failed on repeat 1: index 1 is out of bounds for axis 0 with size 1
+  stability repeat 2/2 (n=5402)
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+    [warn] RFE failed on repeat 2: index 1 is out of bounds for axis 0 with size 1
+        method     f1
+          SHAP 0.8182
+          LIME 0.5385
+   Permutation 0.6667
+    MutualInfo 0.8182
+           RFE   n/a 
+  RFImportance 1.0000
+SLA-FS_rankavg 0.8182
+
+[5/6] Subset sweeps and adaptive selection
+  sweep SHAP                   RandomForest  
+      eps=0.01: k=9 (89% fewer)
+      eps=0.02: k=6 (93% fewer)
+      eps=0.05: k=3 (96% fewer)
+  sweep SHAP                   XGBoost       
+      eps=0.01: k=16 (80% fewer)
+      eps=0.02: k=8 (90% fewer)
+      eps=0.05: k=3 (96% fewer)
+  sweep SHAP                   KNN           
+      eps=0.01: k=5 (94% fewer)
+      eps=0.02: k=3 (96% fewer)
+      eps=0.05: k=3 (96% fewer)
+  sweep LIME                   RandomForest  
+      eps=0.01: k=8 (90% fewer)
+      eps=0.02: k=6 (93% fewer)
+      eps=0.05: k=3 (96% fewer)
+  sweep LIME                   XGBoost       
+      eps=0.01: k=13 (84% fewer)
+      eps=0.02: k=8 (90% fewer)
+      eps=0.05: k=4 (95% fewer)
+  sweep LIME                   KNN           
+      eps=0.01: k=5 (94% fewer)
+      eps=0.02: k=5 (94% fewer)
+      eps=0.05: k=3 (96% fewer)
+  sweep Permutation            RandomForest  
+      eps=0.01: k=8 (90% fewer)
+      eps=0.02: k=6 (93% fewer)
+      eps=0.05: k=3 (96% fewer)
+  sweep Permutation            XGBoost       
+      eps=0.01: k=9 (89% fewer)
+      eps=0.02: k=8 (90% fewer)
+      eps=0.05: k=3 (96% fewer)
+  sweep Permutation            KNN           
+      eps=0.01: k=5 (94% fewer)
+      eps=0.02: k=3 (96% fewer)
+      eps=0.05: k=3 (96% fewer)
+  sweep MutualInfo             RandomForest  
+      eps=0.01: k=13 (84% fewer)
+      eps=0.02: k=10 (88% fewer)
+      eps=0.05: k=3 (96% fewer)
+  sweep MutualInfo             XGBoost       
+      eps=0.01: k=16 (80% fewer)
+      eps=0.02: k=11 (86% fewer)
+      eps=0.05: k=3 (96% fewer)
+  sweep MutualInfo             KNN           
+      eps=0.01: k=7 (91% fewer)
+      eps=0.02: k=4 (95% fewer)
+      eps=0.05: k=2 (98% fewer)
+  [skip] RFE: no ranking available
+  sweep RFImportance           RandomForest  
+      eps=0.01: k=10 (88% fewer)
+      eps=0.02: k=7 (91% fewer)
+      eps=0.05: k=3 (96% fewer)
+  sweep RFImportance           XGBoost       
+      eps=0.01: k=14 (83% fewer)
+      eps=0.02: k=8 (90% fewer)
+      eps=0.05: k=4 (95% fewer)
+  sweep RFImportance           KNN           
+      eps=0.01: k=5 (94% fewer)
+      eps=0.02: k=4 (95% fewer)
+      eps=0.05: k=3 (96% fewer)
+  sweep SLA-FS_rankavg         RandomForest  
+      eps=0.01: k=8 (90% fewer)
+      eps=0.02: k=6 (93% fewer)
+      eps=0.05: k=3 (96% fewer)
+  sweep SLA-FS_rankavg         XGBoost       
+      eps=0.01: k=15 (81% fewer)
+      eps=0.02: k=8 (90% fewer)
+      eps=0.05: k=4 (95% fewer)
+  sweep SLA-FS_rankavg         KNN           
+      eps=0.01: k=5 (94% fewer)
+      eps=0.02: k=5 (94% fewer)
+      eps=0.05: k=3 (96% fewer)
+  sweep SLA-FS_scoreblend      RandomForest  
+      eps=0.01: k=9 (89% fewer)
+      eps=0.02: k=6 (93% fewer)
+      eps=0.05: k=3 (96% fewer)
+  sweep SLA-FS_scoreblend      XGBoost       
+      eps=0.01: k=15 (81% fewer)
+      eps=0.02: k=8 (90% fewer)
+      eps=0.05: k=4 (95% fewer)
+  sweep SLA-FS_scoreblend      KNN           
+      eps=0.01: k=5 (94% fewer)
+      eps=0.02: k=5 (94% fewer)
+      eps=0.05: k=3 (96% fewer)
+  sweep SLA-FS_intersection    RandomForest  
+      eps=0.01: k=9 (89% fewer)
+      eps=0.02: k=6 (93% fewer)
+      eps=0.05: k=3 (96% fewer)
+  sweep SLA-FS_intersection    XGBoost       
+      eps=0.01: k=16 (80% fewer)
+      eps=0.02: k=8 (90% fewer)
+      eps=0.05: k=3 (96% fewer)
+  sweep SLA-FS_intersection    KNN           
+      eps=0.01: k=5 (94% fewer)
+      eps=0.02: k=3 (96% fewer)
+      eps=0.05: k=3 (96% fewer)
+  72 adaptive decisions recorded
+
+[6/6] Final evaluation on the held-out test split (first and only use)
+  final test evaluation: 75 configurations
+    RandomForest   Full                   k=81  F1=0.9581  AUC=0.9921
+    XGBoost        Full                   k=81  F1=0.9621  AUC=0.9933
+    KNN            Full                   k=81  F1=0.9379  AUC=0.9737
+    RandomForest   SHAP                   k= 9  F1=0.9461  AUC=0.9870
+    RandomForest   SHAP                   k= 6  F1=0.9275  AUC=0.9760
+    RandomForest   SHAP                   k= 3  F1=0.9131  AUC=0.9562
+    XGBoost        SHAP                   k=16  F1=0.9490  AUC=0.9877
+    XGBoost        SHAP                   k= 8  F1=0.9433  AUC=0.9825
+    XGBoost        SHAP                   k= 3  F1=0.9147  AUC=0.9633
+    KNN            SHAP                   k= 5  F1=0.9116  AUC=0.9559
+    KNN            SHAP                   k= 3  F1=0.9141  AUC=0.9426
+    RandomForest   LIME                   k= 8  F1=0.9420  AUC=0.9860
+    RandomForest   LIME                   k= 6  F1=0.9374  AUC=0.9828
+    RandomForest   LIME                   k= 3  F1=0.9093  AUC=0.9559
+    XGBoost        LIME                   k=13  F1=0.9471  AUC=0.9868
+    XGBoost        LIME                   k= 8  F1=0.9445  AUC=0.9837
+    XGBoost        LIME                   k= 4  F1=0.9182  AUC=0.9727
+    KNN            LIME                   k= 5  F1=0.9304  AUC=0.9659
+    KNN            LIME                   k= 3  F1=0.8987  AUC=0.9384
+    RandomForest   Permutation            k= 8  F1=0.9481  AUC=0.9865
+    XGBoost        Permutation            k= 9  F1=0.9494  AUC=0.9850
+    XGBoost        Permutation            k= 8  F1=0.9495  AUC=0.9858
+    RandomForest   MutualInfo             k=13  F1=0.9432  AUC=0.9869
+    RandomForest   MutualInfo             k=10  F1=0.9368  AUC=0.9804
+    RandomForest   MutualInfo             k= 3  F1=0.9113  AUC=0.9579
+    XGBoost        MutualInfo             k=16  F1=0.9501  AUC=0.9877
+    XGBoost        MutualInfo             k=11  F1=0.9341  AUC=0.9787
+    XGBoost        MutualInfo             k= 3  F1=0.9026  AUC=0.9574
+    KNN            MutualInfo             k= 7  F1=0.9187  AUC=0.9587
+    KNN            MutualInfo             k= 4  F1=0.9058  AUC=0.9450
+    KNN            MutualInfo             k= 2  F1=0.8830  AUC=0.9341
+    RandomForest   RFImportance           k=10  F1=0.9463  AUC=0.9863
+    RandomForest   RFImportance           k= 7  F1=0.9415  AUC=0.9843
+    XGBoost        RFImportance           k=14  F1=0.9449  AUC=0.9867
+    XGBoost        RFImportance           k= 8  F1=0.9430  AUC=0.9829
+    XGBoost        RFImportance           k= 4  F1=0.9232  AUC=0.9734
+    KNN            RFImportance           k= 5  F1=0.9116  AUC=0.9559
+    KNN            RFImportance           k= 4  F1=0.9093  AUC=0.9480
+    RandomForest   SLA-FS_rankavg         k= 8  F1=0.9405  AUC=0.9835
+    RandomForest   SLA-FS_rankavg         k= 6  F1=0.9389  AUC=0.9823
+    XGBoost        SLA-FS_rankavg         k=15  F1=0.9504  AUC=0.9878
+    XGBoost        SLA-FS_rankavg         k= 8  F1=0.9415  AUC=0.9821
+    KNN            SLA-FS_rankavg         k= 5  F1=0.9116  AUC=0.9559
+    RandomForest   SLA-FS_scoreblend      k= 9  F1=0.9471  AUC=0.9868
+    XGBoost        SLA-FS_scoreblend      k=15  F1=0.9522  AUC=0.9877
+    XGBoost        SLA-FS_scoreblend      k= 8  F1=0.9438  AUC=0.9821
+    XGBoost        SLA-FS_intersection    k=16  F1=0.9530  AUC=0.9889
+C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\sklearn\utils\validation.py:2830: UserWarning: X does not have valid feature names, but RandomForestClassifier was fitted with feature names
+  warnings.warn(
+  LIME example explanation saved
+
+  Test-set summary (full vs adaptive at epsilon=0.02)
+       model              method  n_features accuracy precision recall     f1 roc_auc
+RandomForest                Full          81   0.9587    0.9577 0.9585 0.9581  0.9921
+     XGBoost                Full          81   0.9627    0.9630 0.9612 0.9621  0.9933
+         KNN                Full          81   0.9401    0.9568 0.9197 0.9379  0.9737
+RandomForest                SHAP           6   0.9290    0.9318 0.9234 0.9275  0.9760
+     XGBoost                SHAP           8   0.9445    0.9489 0.9378 0.9433  0.9825
+         KNN                SHAP           3   0.9147    0.9076 0.9206 0.9141  0.9426
+RandomForest                LIME           6   0.9387    0.9426 0.9324 0.9374  0.9828
+     XGBoost                LIME           8   0.9454    0.9458 0.9432 0.9445  0.9837
+         KNN                LIME           5   0.9316    0.9329 0.9279 0.9304  0.9659
+RandomForest         Permutation           6   0.9290    0.9318 0.9234 0.9275  0.9760
+     XGBoost         Permutation           8   0.9503    0.9487 0.9504 0.9495  0.9858
+         KNN         Permutation           3   0.9147    0.9076 0.9206 0.9141  0.9426
+RandomForest          MutualInfo          10   0.9378    0.9385 0.9351 0.9368  0.9804
+     XGBoost          MutualInfo          11   0.9356    0.9414 0.9270 0.9341  0.9787
+         KNN          MutualInfo           4   0.9067    0.9010 0.9107 0.9058  0.9450
+RandomForest        RFImportance           7   0.9427    0.9471 0.9360 0.9415  0.9843
+     XGBoost        RFImportance           8   0.9440    0.9456 0.9405 0.9430  0.9829
+         KNN        RFImportance           4   0.9103    0.9053 0.9134 0.9093  0.9480
+RandomForest      SLA-FS_rankavg           6   0.9401    0.9419 0.9360 0.9389  0.9823
+     XGBoost      SLA-FS_rankavg           8   0.9427    0.9471 0.9360 0.9415  0.9821
+         KNN      SLA-FS_rankavg           5   0.9125    0.9071 0.9161 0.9116  0.9559
+RandomForest   SLA-FS_scoreblend           6   0.9401    0.9419 0.9360 0.9389  0.9823
+     XGBoost   SLA-FS_scoreblend           8   0.9449    0.9481 0.9396 0.9438  0.9821
+         KNN   SLA-FS_scoreblend           5   0.9125    0.9071 0.9161 0.9116  0.9559
+RandomForest SLA-FS_intersection           6   0.9290    0.9318 0.9234 0.9275  0.9760
+     XGBoost SLA-FS_intersection           8   0.9445    0.9489 0.9378 0.9433  0.9825
+         KNN SLA-FS_intersection           3   0.9147    0.9076 0.9206 0.9141  0.9426
+==============================================================================
+                               STAGE 7  Figures                               
+==============================================================================
+  class_distribution_fast.png
+  target_correlation_fast.png
+  highly_correlated_pairs_fast.png
+Traceback (most recent call last):
+  File "C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\main.py", line 944, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\main.py", line 898, in main
+    stage_visualize(cfg)
+    ~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\main.py", line 766, in stage_visualize
+    _add(viz.plot_correlation_structure(_read("correlation_matrix_train", cfg), cfg))
+         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\src\visualization.py", line 775, in plot_correlation_structure
+    sns.heatmap(correlation, ax=ax, cmap="RdBu_r", vmin=-1, vmax=1,
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                cbar_kws={"label": "Pearson r", "shrink": 0.7},
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                xticklabels=False, yticklabels=False, rasterized=True)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\seaborn\matrix.py", line 446, in heatmap
+    plotter = _HeatMapper(data, vmin, vmax, cmap, center, robust, annot, fmt,
+                          annot_kws, cbar, cbar_kws, xticklabels,
+                          yticklabels, mask)
+  File "C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\seaborn\matrix.py", line 163, in __init__
+    self._determine_cmap_params(plot_data, vmin, vmax,
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+                                cmap, center, robust)
+                                ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\devgo\OneDrive\Desktop\seminar\phishing-detection\.venv\Lib\site-packages\seaborn\matrix.py", line 197, in _determine_cmap_params
+    calc_data = plot_data.astype(float).filled(np.nan)
+                ~~~~~~~~~~~~~~~~^^^^^^^
+ValueError: could not convert string to float: 'length_url'
+EXIT=1

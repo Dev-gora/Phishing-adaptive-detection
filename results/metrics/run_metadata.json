@@ -1,0 +1,125 @@
+{
+  "environment": {
+    "python": "3.14.4",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "machine": "AMD64",
+    "numpy": "2.5.5",
+    "pandas": "3.1.1",
+    "scipy": "1.18.1",
+    "sklearn": "1.9.1",
+    "xgboost": "3.4.1",
+    "lightgbm": "4.7.0",
+    "shap": "0.54.1",
+    "lime": "unknown",
+    "matplotlib": "3.11.2",
+    "seaborn": "0.13.2"
+  },
+  "config": {
+    "seed": 42,
+    "test_size": 0.2,
+    "val_size": 0.2,
+    "stratify": true,
+    "drop_constant_features": true,
+    "drop_duplicate_urls": true,
+    "correlation_threshold": 0.95,
+    "stability_repeats": 5,
+    "stability_fraction": 0.8,
+    "stability_k": 10,
+    "lime_num_samples": 500,
+    "lime_num_features": 87,
+    "shap_max_samples": 1000,
+    "perm_n_repeats": 5,
+    "perm_cv_folds": 3,
+    "mi_n_neighbors": 3,
+    "rfe_step": 1,
+    "epsilons": [
+      0.01,
+      0.02,
+      0.05
+    ],
+    "k_step": 2,
+    "patience": 3,
+    "refine": true,
+    "model_names": [
+      "RandomForest",
+      "XGBoost",
+      "KNN",
+      "LightGBM"
+    ],
+    "include_lightgbm": true,
+    "n_jobs": -1,
+    "tuning_cv_folds": 3,
+    "tune_hyperparameters": true,
+    "fast_mode": false,
+    "save_pdf": true,
+    "figure_dpi": 300,
+    "verbose": true
+  },
+  "provenance": [
+    {
+      "method": "SHAP",
+      "provenance": "ESTABLISHED",
+      "reference": "Lundberg & Lee (2017), NeurIPS 30, 4765-4774",
+      "description": "Global importance = mean absolute SHAP value.",
+      "implementation_note": "shap.TreeExplainer on the shared Random Forest surrogate."
+    },
+    {
+      "method": "LIME",
+      "provenance": "ESTABLISHED",
+      "reference": "Ribeiro, Singh & Guestrin (2016), KDD '16, 1135-1144",
+      "description": "Local linear surrogate; aggregated to a global score.",
+      "implementation_note": "Mean |weight| over explained training instances."
+    },
+    {
+      "method": "Permutation",
+      "provenance": "ESTABLISHED",
+      "reference": "Breiman (2001), Machine Learning 45(1), 5-32; Fisher, Rudin & Dominici (2019), JMLR 20(177), 1-81",
+      "description": "Drop in F1 when a feature is randomly permuted.",
+      "implementation_note": "Averaged over stratified folds of the training split."
+    },
+    {
+      "method": "MutualInfo",
+      "provenance": "ESTABLISHED",
+      "reference": "Cover & Thomas (2006), Elements of Information Theory, 2nd ed.; Kraskov et al. (2004), Phys. Rev. E 69, 066138",
+      "description": "Univariate mutual information with the label.",
+      "implementation_note": "sklearn mutual_info_classif, k-NN estimator."
+    },
+    {
+      "method": "RFE",
+      "provenance": "ESTABLISHED",
+      "reference": "Guyon, Weston, Barnhill & Vapnik (2002), Machine Learning 46, 389-422",
+      "description": "Recursive elimination using Random Forest importances.",
+      "implementation_note": "Elimination order gives a complete ranking."
+    },
+    {
+      "method": "RFImportance",
+      "provenance": "ESTABLISHED",
+      "reference": "Breiman (2001), Machine Learning 45(1), 5-32",
+      "description": "Mean decrease in Gini impurity.",
+      "implementation_note": "Read directly from the shared surrogate."
+    },
+    {
+      "method": "SLA-FS_rankavg",
+      "provenance": "MODIFICATION",
+      "reference": "Shafin (2025), Data Science and Management 8(2), 127-136, DOI 10.1016/j.dsm.2024.08.004",
+      "description": "Fusion of SHAP and aggregated-LIME rankings by mean rank.",
+      "implementation_note": "Our operationalisation: the paper does not give an explicit formula."
+    },
+    {
+      "method": "SLA-FS_scoreblend",
+      "provenance": "MODIFICATION",
+      "reference": "Shafin (2025), DOI 10.1016/j.dsm.2024.08.004",
+      "description": "Fusion by weighted blend of min-max-normalised importance scores.",
+      "implementation_note": "Our operationalisation: alpha = 0.5 by default, configurable."
+    },
+    {
+      "method": "SLA-FS_intersection",
+      "provenance": "REPRODUCTION",
+      "reference": "Shafin (2025), DOI 10.1016/j.dsm.2024.08.004",
+      "description": "Intersection of the SHAP and LIME top-k lists, used as the selected subset.",
+      "implementation_note": "Matches the paper's stated 'ranking/intersection' rule; k must be fixed."
+    }
+  ],
+  "slafs_reference_k": 15,
+  "sweep_points": 14
+}

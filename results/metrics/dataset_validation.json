@@ -1,0 +1,43 @@
+{
+  "shape": [
+    11430,
+    89
+  ],
+  "n_rows": 11430,
+  "n_columns": 89,
+  "expected_from_paper": {
+    "n_samples": 11430,
+    "n_features": 87
+  },
+  "matches_paper_dimensions": true,
+  "columns_present": {
+    "id_column": true,
+    "label_column": true
+  },
+  "missing_values": 0,
+  "missing_values_per_column": {},
+  "duplicate_rows": 0,
+  "duplicate_feature_rows": 174,
+  "class_counts": {
+    "legitimate": 5715,
+    "phishing": 5715
+  },
+  "is_balanced": true,
+  "n_unique_urls": 11429,
+  "n_urls_appearing_multiple_times": 1,
+  "n_urls_with_conflicting_labels": 0,
+  "n_numeric_features": 87,
+  "non_numeric_features": [],
+  "constant_features": [
+    "nb_or",
+    "ratio_nullHyperlinks",
+    "ratio_intRedirection",
+    "ratio_intErrors",
+    "submit_email",
+    "sfh"
+  ],
+  "features_with_negative_values": [
+    "domain_registration_length",
+    "domain_age"
+  ]
+}

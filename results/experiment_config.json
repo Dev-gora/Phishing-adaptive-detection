@@ -1,0 +1,41 @@
+{
+  "seed": 42,
+  "test_size": 0.2,
+  "val_size": 0.2,
+  "stratify": true,
+  "drop_constant_features": true,
+  "drop_duplicate_urls": true,
+  "correlation_threshold": 0.95,
+  "stability_repeats": 5,
+  "stability_fraction": 0.8,
+  "stability_k": 10,
+  "lime_num_samples": 500,
+  "lime_num_features": 87,
+  "shap_max_samples": 1000,
+  "perm_n_repeats": 5,
+  "perm_cv_folds": 3,
+  "mi_n_neighbors": 3,
+  "rfe_step": 1,
+  "epsilons": [
+    0.01,
+    0.02,
+    0.05
+  ],
+  "k_step": 2,
+  "patience": 3,
+  "refine": true,
+  "model_names": [
+    "RandomForest",
+    "XGBoost",
+    "KNN",
+    "LightGBM"
+  ],
+  "include_lightgbm": true,
+  "n_jobs": -1,
+  "tuning_cv_folds": 3,
+  "tune_hyperparameters": true,
+  "fast_mode": false,
+  "save_pdf": true,
+  "figure_dpi": 300,
+  "verbose": true
+}

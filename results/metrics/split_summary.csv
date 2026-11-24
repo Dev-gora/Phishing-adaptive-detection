@@ -1,0 +1,4 @@
+split,n_samples,n_phishing,n_legitimate,phishing_rate
+train,6753,3324,3429,0.4922
+validation,2251,1108,1143,0.4922
+test,2252,1109,1143,0.4925

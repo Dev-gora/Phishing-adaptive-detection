@@ -1,0 +1,12 @@
+{
+  "repeats": 5,
+  "subsample_fraction": 0.8,
+  "selector_settings": {
+    "lime_num_samples": 120,
+    "shap_max_samples": 400,
+    "rfe_step": 2,
+    "perm_cv_folds": 2,
+    "perm_n_repeats": 2
+  },
+  "note": "Repeats use a reduced-cost selector configuration. Stability measures the robustness of each selector's ordering, not its headline ranking."
+}
