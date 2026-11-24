@@ -1,0 +1,13 @@
+{
+  "name": "phishing-ui",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "bun run --bun index.html",
+    "dev": "bun run --bun index.html"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  }
+}

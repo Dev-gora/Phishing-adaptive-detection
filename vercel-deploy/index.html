@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lightweight and Explainable Phishing Detection</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --bg-subtle: #12121a;
+      --fg: #f0f0f5;
+      --muted: #737383;
+      --accent: #00d4aa;
+      --accent-dim: #00d4aa33;
+      --card: #1a1a24;
+      --border: #2a2a3a;
+      --error: #ff4757;
+      --success: #00d4aa;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    .bg-pattern {
+      background-image: 
+        linear-gradient(var(--bg) 1px, transparent 1px),
+        linear-gradient(90deg, var(--bg) 1px, transparent 1px);
+      background-size: 50px 50px;
+      opacity: 0.03;
+    }
+
+    .nav-link {
+      background: linear-gradient(135deg, var(--accent), #00ffcc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), #00ffcc);
+      color: var(--bg);
+      font-weight: 600;
+      padding: 12px 24px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px var(--accent-dim);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+    }
+
+    .input-url {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 16px;
+      color: var(--fg);
+      width: 100%;
+      font-family: inherit;
+      font-size: 1rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .input-url:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-dim);
+    }
+
+    .result-card {
+      animation: fadeInUp 0.5s ease-out;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .feature-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .feature-item:last-child {
+      border-bottom: none;
+    }
+
+    .status-badge {
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .status-phishing {
+      background: #ff475720;
+      color: #ff4757;
+    }
+
+    .status-legitimate {
+      background: #00d4aa20;
+      color: #00d4aa;
+    }
+
+    .metric-value {
+      font-size: 2.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--accent), #00ffcc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, var(--accent), #00ffcc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .dropdown-toggle::after {
+      display: none;
+    }
+
+    @media (max-width: 640px) {
+      .mobile-full-width {
+        width: 100% !important;
+      }
+    }
+  </style>
+</head>
+<body class="bg-pattern min-h-screen">
+  <!-- Navigation -->
+  <nav class="bg-bg-subtle/80 backdrop-blur-sm border-b border-border/50 fixed top-0 left-0 right-0 z-50">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="#" class="text-2xl font-bold tracking-tight">
+        Phishing Detection
+      </a>
+      <div class="flex items-center gap-6 text-sm text-muted">
+        <a href="#paper" class="hover:text-accent transition-colors">Paper</a>
+        <a href="#analyzer" class="hover:text-accent transition-colors">URL Analyzer</a>
+        <a href="https://github.com/Dev-gora/Phishing-adaptive-detection" target="_blank" rel="noopener" class="hover:text-accent transition-colors">GitHub</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="mx-auto max-w-7xl px-6 py-20">
+
+    <!-- Hero Section -->
+    <section class="mb-16">
+      <div class="max-w-3xl mx-auto text-center mb-12">
+        <h1 class="text-5xl md:text-6xl font-bold tracking-tight mb-4">
+          Lightweight and Explainable
+        </h1>
+        <h1 class="text-5xl md:text-6xl font-bold tracking-tight mb-4">Phishing Detection</h1>
+        <p class="text-lg md:text-xl text-muted mb-8 max-w-2xl mx-auto">
+          A machine learning framework for detecting phishing websites using adaptive
+          feature selection and explainable AI techniques
+        </p>
+        <div class="inline-flex items-center gap-4 mx-auto space-x-2">
+          <span class="px-3 py-1 bg-bg-subtle rounded-full text-sm text-muted">
+            Research Paper
+          </span>
+          <span class="px-3 py-1 bg-bg-subtle rounded-full text-sm text-muted">
+            URL Analyzer
+          </span>
+        </div>
+      </div>
+
+      <!-- Analysis Card -->
+      <div class="card result-card mb-8">
+        <h2 class="text-xl font-medium mb-4">Analyze a URL</h2>
+        <form id="urlForm" class="space-y-4">
+          <div>
+            <label for="urlInput" class="block text-sm font-medium mb-2">Enter URL to analyze</label>
+            <input
+              type="url"
+              id="urlInput"
+              name="url"
+              required
+              placeholder="https://example.com"
+              class="input-url"
+              />
+          </div>
+          <button
+            type="submit"
+            class="btn-primary w-full"
+            >
+            Analyze URL
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Paper Overview -->
+    <section id="paper" class="mb-16">
+      <div class="card">
+        <h2 class="text-xl font-medium mb-4">Paper Overview</h2>
+        <p class="text-muted mb-6">
+          This research focuses on developing a lightweight and explainable machine
+          learning framework for phishing website detection. The study compares eight
+          feature-selection techniques and four machine learning models, investigating
+          whether explainability-driven feature selection can provide a practical
+          balance between accuracy, interpretability, and computational efficiency.
+        </p>
+        <ul class="list-disc list-inside text-muted space-y-2">
+          <li>Eight feature-selection methods compared: SHAP, LIME, Permutation Importance, Mutual Information, RFE, RF Gini, SLA-FS, and adaptive selection</li>
+          <li>Four models evaluated: Random Forest, XGBoost, KNN, and LightGBM</li>
+          <li>Adaptive feature-selection strategy: F1(k) ≥ F1(full) - ε with ε = 0.01, 0.02, 0.05</li>
+          <li>Dataset: Hannousse & Yahiouche (2021), Mendeley Data V3, 11,430 samples, 87 features</li>
+          <li>Key finding: Adaptive rule parks k on the tolerance boundary; SLA-FS provides the best efficiency-strength trade-off</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- URL Analyzer Results -->
+    <section id="analyzer" class="mb-16">
+      <div class="card" id="analyzerCard" style="display: none;">
+        <h2 class="text-xl font-medium mb-4">Analysis Results</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div>
+            <p class="text-muted text-sm mb-2">Risk Score</p>
+            <p class="metric-value" id="riskScore">0</p>
+          </div>
+          <div>
+            <p class="text-muted text-sm mb-2">Confidence</p>
+            <p class="metric-value" id="confidence">0</p>
+          </div>
+        </div>
+
+        <div class="space-y-3">
+          <p class="text-sm font-medium mb-1">Contributing Factors:</p>
+          <ul id="factorsList" class="list-disc list-inside text-sm space-y-1"></ul>
+        </div>
+
+        <div class="mt-4 p-4 bg-bg-subtle rounded-lg">
+          <p class="text-sm text-muted font-medium">URL Features Analyzed:</p>
+          <dl class="grid grid-cols-2 gap-4 text-sm">
+            <dt class="font-medium">URL Length:</dt>
+            <dd id="featureUrlLength">-</dd>
+            <dt class="font-medium">HTTPS:</dt>
+            <dd id="featureHttps">-</dd>
+            <dt class="font-medium">Special Characters:</dt>
+            <dd id="featureSpecialChars">-</dd>
+            <dt class="font-medium">Has IP Address:</dt>
+            <dd id="featureHasIp">-</dd>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-auto pt-12 border-t border-border/50 text-sm text-muted">
+    <div class="max-w-7xl mx-auto px-6">
+      <p>
+        Lightweight and Explainable Phishing Detection &nbsp;·&nbsp;
+        <span id="year"></span> &nbsp;·&nbsp;
+        <a href="https://github.com/Dev-gora/Phishing-adaptive-detection" target="_blank" rel="noopener" class="hover:text-accent transition-colors">GitHub Repository</a>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // Set current year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // URL Form handler
+    const urlForm = document.getElementById('urlForm');
+    const analyzerCard = document.getElementById('analyzerCard');
+    const analyzerCardSection = document.getElementById('analyzer');
+    const riskScoreEl = document.getElementById('riskScore');
+    const confidenceEl = document.getElementById('confidence');
+    const factorsList = document.getElementById('factorsList');
+    const featureElements = {
+      urlLength: document.getElementById('featureUrlLength'),
+      https: document.getElementById('featureHttps'),
+      specialChars: document.getElementById('featureSpecialChars'),
+      hasIp: document.getElementById('featureHasIp')
+    };
+
+    // Sample URLs for demonstration
+    const sampleUrls = {
+      legitimate: 'https://www.google.com',
+      suspicious: 'http://192.168.1.99/login.php',
+      phishing: 'http://verify-paypal-secure.com/billing/index.html'
+    };
+
+    // Format risk score as badge
+    function formatRiskBadge(score) {
+      if (score >= 70) return `<span class="status-badge status-phishing">High Risk (${score})</span>`;
+      if (score >= 50) return `<span class="status-badge status-phishing">Medium Risk (${score})</span>`;
+      return `<span class="status-badge status-legitimate">Low Risk (${score})</span>`;
+    }
+
+    // Update UI with analysis results
+    function updateResults(result) {
+      analyzerCard.style.display = 'block';
+      analyzerCardSection.style.display = 'block';
+      riskScoreEl.textContent = result.riskScore;
+      confidenceEl.textContent = result.confidence;
+
+      // Clear previous factors
+      factorsList.innerHTML = '';
+
+      // Add factors
+      if (result.factors && result.factors.length > 0) {
+        result.factors.forEach(factor => {
+          const li = document.createElement('li');
+          li.textContent = factor;
+          factorsList.appendChild(li);
+        });
+      } else {
+        const li = document.createElement('li');
+        li.textContent = 'No significant risk factors detected';
+        factorsList.appendChild(li);
+      }
+
+      // Update feature elements
+      featureElements.urlLength.textContent = result.features.urlLength;
+      featureElements.https.textContent = result.features.hasHttps ? 'Yes' : 'No';
+      featureElements.specialChars.textContent = result.features.specialChars;
+      featureElements.hasIp.textContent = result.features.hasIp ? 'Yes' : 'No';
+
+      // Add appropriate class
+      const riskBadge = document.querySelector('.risk-badge');
+      if (riskBadge) {
+        riskBadge.className = `status-badge ${result.isPhishing ? 'status-phishing' : 'status-legitimate'}`;
+      } else {
+        const badge = document.createElement('div');
+        badge.className = `status-badge ${result.isPhishing ? 'status-phishing' : 'status-legitimate'}`;
+        badge.textContent = result.isPhishing ? 'PHISHING DETECTED' : 'LEGITIMATE';
+        // Insert before the metric values
+        riskScoreEl.parentElement.insertBefore(badge, riskScoreEl);
+      }
+    }
+
+    // Analyze URL function
+    async function analyzeUrl(url) {
+      try {
+        const response = await fetch('/api/analyze', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ url }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Analysis failed');
+        }
+
+        const result = await response.json();
+        updateResults(result);
+      } catch (error) {
+        console.error('Analysis error:', error);
+        // Show error state
+        riskScoreEl.textContent = 'Error';
+        confidenceEl.textContent = '0';
+        factorsList.innerHTML = '<li class="text-red-400">Analysis failed - please try again</li>';
+      }
+    }
+
+    // Form submit handler
+    urlForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const urlInput = document.getElementById('urlInput');
+      const url = urlInput.value.trim();
+      if (url) {
+        analyzeUrl(url);
+        urlInput.value = '';
+      }
+    });
+
+    // Demo buttons
+    document.querySelectorAll('.demo-url').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const targetUrl = btn.getAttribute('data-url');
+        document.getElementById('urlInput').value = targetUrl;
+        urlForm.dispatchEvent(new Event('submit'));
+      });
+    });
+
+    // Initialize with a sample
+    document.addEventListener('DOMContentLoaded', () => {
+      // Analyze a sample URL on load
+      analyzeUrl(sampleUrls.suspicious);
+    });
+  </script>
+</body>
+</html>
