@@ -3,7 +3,8 @@
   "functions": {
     "api/index.py": {
       "maxDuration": 60,
-      "includeFiles": "{artifacts,data,src}/**/*,prototype/frontend/public/**/*,prototype/backend/*.py"
+      "includeFiles": "{artifacts,data,src}/**/*,prototype/frontend/public/**/*,prototype/backend/*.py",
+      "excludeFiles": "{**/tests/**,**/test/**,**/*.pyi,**/__pycache__/**}"
     }
   },
   "rewrites": [
